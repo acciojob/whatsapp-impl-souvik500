@@ -100,115 +100,115 @@ public class WhatsappRepository {
 
     public int removeUser(User user)throws Exception {
 
-        int res = 0;
-
-        boolean isPresent = false;
-        Group groupForUser = null;
-
-        for (Group gl : groupUserMap.keySet())
-        {
-            List<User> ul = groupUserMap.get(gl);
-            if (ul.contains(user)) {
-                if (adminMap.get(gl).equals(user)) throw new Exception("Cannot remove admin");
-
-                isPresent = true;
-                groupForUser = gl;
-                break;
-            }
-        }
-
-        if (isPresent == false) throw new Exception("User not found");
-
-        else {
-            List<User> userUpdate = new ArrayList<>();
-            for (User u : groupUserMap.get(groupForUser))
-            {
-                if (u.equals(user)) continue;
-                userUpdate.add(u);
-            }
-            groupUserMap.put(groupForUser, userUpdate);
-
-            //groupMessageMap
-            List<Message> messagesUpdate = new ArrayList<>();
-            for (Message message: groupMessageMap.get(groupForUser))
-            {
-                if (senderMap.get(message).equals(user)) continue;
-                messagesUpdate.add(message);
-            }
-            groupMessageMap.put(groupForUser, messagesUpdate);
-
-            //senderMap
-            HashMap<Message, User> senderUpdate = new HashMap<>();
-            for (Message message: senderMap.keySet())
-            {
-                if (senderMap.get(message).equals(user)) continue;
-                senderUpdate.put(message, senderMap.get(message));
-            }
-            senderMap = senderUpdate;
-
-            //Calculation
-            res = userUpdate.size() + messagesUpdate.size() + senderUpdate.size();
-            return res;
-        }
+//        int res = 0;
+//
+//        boolean isPresent = false;
+//        Group groupForUser = null;
+//
+//        for (Group gl : groupUserMap.keySet())
+//        {
+//            List<User> ul = groupUserMap.get(gl);
+//            if (ul.contains(user)) {
+//                if (adminMap.get(gl).equals(user)) throw new Exception("Cannot remove admin");
+//
+//                isPresent = true;
+//                groupForUser = gl;
+//                break;
+//            }
+//        }
+//
+//        if (isPresent == false) throw new Exception("User not found");
+//
+//        else {
+//            List<User> userUpdate = new ArrayList<>();
+//            for (User u : groupUserMap.get(groupForUser))
+//            {
+//                if (u.equals(user)) continue;
+//                userUpdate.add(u);
+//            }
+//            groupUserMap.put(groupForUser, userUpdate);
+//
+//            //groupMessageMap
+//            List<Message> messagesUpdate = new ArrayList<>();
+//            for (Message message: groupMessageMap.get(groupForUser))
+//            {
+//                if (senderMap.get(message).equals(user)) continue;
+//                messagesUpdate.add(message);
+//            }
+//            groupMessageMap.put(groupForUser, messagesUpdate);
+//
+//            //senderMap
+//            HashMap<Message, User> senderUpdate = new HashMap<>();
+//            for (Message message: senderMap.keySet())
+//            {
+//                if (senderMap.get(message).equals(user)) continue;
+//                senderUpdate.put(message, senderMap.get(message));
+//            }
+//            senderMap = senderUpdate;
+//
+//            //Calculation
+//            res = userUpdate.size() + messagesUpdate.size() + senderUpdate.size();
+//            return res;
+//        }
 
 
         // get Group in list from groupUSer map, get user index list
         // get message list from sender index with help of user
         // get List of message index from group message map
 
-//        int res =0;
-//        for (Group group : adminMap.keySet()){
-//            if(adminMap.get(group).equals(user))throw  new RuntimeException("User is admin cannot delete");
-//        }
-//        Map<Group,User> groupList = new HashMap<>(); // only the list of group where user exist;
-//        for(Group group : groupUserMap.keySet()){
-//            for (User user1 : groupUserMap.get(group)){
-//                if(user1.equals(user)){
-//                    groupList.put(group,user);
-//                }
-//            }
-//        }
-//        if(groupList.size() == 0) throw new RuntimeException("user is not found");
-//
-//        for(Group group : groupList.keySet()){
-//            User user1 = groupList.get(group);
-//            groupUserMap.get(group).remove(user1);
-//            res += groupUserMap.get(group).size();
-//        }
-//
-//        List<Message> messageList = new ArrayList<>();
-//        for(Message message : senderMap.keySet()){
-//            if(senderMap.get(message).equals(user)){
-//                messageList.add(message);
-//            }
-//        }
-//
-//        Map<Group,List<Message>> messageListMap = new HashMap<>();
-//        for (Message original : messageList){
-//            for(Group group : groupList.keySet()){
-//                List<Message> messageList1 =groupMessageMap.get(group);
-//                for(Message check : messageList1 ){
-//                    if(check.equals(original)){
-//                        List<Message> ls = messageListMap.getOrDefault(group, new ArrayList<Message>());
-//                        ls.add(check);
-//                        messageListMap.put(group,ls);
-//                    }
-//                }
-//            }
-//        }
-//        for (Group group : messageListMap.keySet()){
-//            List<Message> remove = messageListMap.get(group);
-//            for (Message message : remove){
-//                groupMessageMap.get(group).remove(message);
-//                res += groupMessageMap.get(group).size();
-//                senderMap.remove(message);
-//            }
-//        }
-//
-//        for (Group group : groupMessageMap.keySet()){
-//            res += groupMessageMap.get(group).size();
-//        }
-//        return res;
+        int res =0;
+        for (Group group : adminMap.keySet()){
+            if(adminMap.get(group).equals(user))throw  new RuntimeException("User is admin cannot delete");
+        }
+        Map<Group,User> groupList = new HashMap<>(); // only the list of group where user exist;
+        for(Group group : groupUserMap.keySet()){
+            for (User user1 : groupUserMap.get(group)){
+                if(user1.equals(user)){
+                    groupList.put(group,user);
+                }
+            }
+        }
+        if(groupList.size() == 0) throw new RuntimeException("user is not found");
+
+        for(Group group : groupList.keySet()){
+            User user1 = groupList.get(group);
+            groupUserMap.get(group).remove(user1);
+            res += groupUserMap.get(group).size();
+        }
+
+        List<Message> messageList = new ArrayList<>();
+        for(Message message : senderMap.keySet()){
+            if(senderMap.get(message).equals(user)){
+                messageList.add(message);
+            }
+        }
+
+        Map<Group,List<Message>> messageListMap = new HashMap<>();
+        for (Message original : messageList){
+            for(Group group : groupList.keySet()){
+                List<Message> messageList1 =groupMessageMap.get(group);
+                for(Message check : messageList1 ){
+                    if(check.equals(original)){
+                        List<Message> ls = messageListMap.getOrDefault(group, new ArrayList<Message>());
+                        ls.add(check);
+                        messageListMap.put(group,ls);
+                    }
+                }
+            }
+        }
+        for (Group group : messageListMap.keySet()){
+            List<Message> remove = messageListMap.get(group);
+            for (Message message : remove){
+                groupMessageMap.get(group).remove(message);
+                res += groupMessageMap.get(group).size();
+                senderMap.remove(message);
+            }
+        }
+
+        for (Group group : groupMessageMap.keySet()){
+            res += groupMessageMap.get(group).size();
+        }
+        return res;
     }
 
     public String findMessage(Date start, Date end, int K) throws Exception {
