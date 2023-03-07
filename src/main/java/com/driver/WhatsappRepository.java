@@ -212,39 +212,39 @@ public class WhatsappRepository {
     }
 
     public String findMessage(Date start, Date end, int K) throws Exception {
-//        List<Message>messages = new ArrayList<>();
-//        for(Message message:senderMap.keySet()){
-//            Date curr = message.getTimestamp();
-//            if(start.compareTo(curr)>0 && end.compareTo(curr)<0){
-//                messages.add(message);
-//            }
-//        }
-//
-//        if(messages.size()<K){
-//            throw new Exception("K is greater than the number of messages");
-//        }
-//        else{
-//            //Collections.sort(messages, (o1, o2) -> o1.getTimestamp().compareTo(o2.getTimestamp()));
-//
+        List<Message>messages = new ArrayList<>();
+        for(Message message:senderMap.keySet()){
+            Date curr = message.getTimestamp();
+            if(start.compareTo(curr)>0 && end.compareTo(curr)<0){
+                messages.add(message);
+            }
+        }
+
+        if(messages.size()<K){
+            throw new Exception("K is greater than the number of messages");
+        }
+        else{
+            Collections.sort(messages, (o1, o2) -> o1.getTimestamp().compareTo(o2.getTimestamp()));
+
 //            Collections.sort(messages,new Comparator<Message>(){
 //                @Override
 //                public int compare(Message o1, Message o2) {
 //                    return o1.getTimestamp().compareTo(o2.getTimestamp());
 //                }
 //            });
-//        }
-//        return messages.get(K-1).getContent();
-
-        PriorityQueue<Pair> priorityQueue = new PriorityQueue<>((Pair a, Pair b) ->(b.size - a.size));
-
-        int messageCount =0;
-        for (Message message : senderMap.keySet()){
-            if (message.getTimestamp().after(start) && message.getTimestamp().before(end)){
-                messageCount++;
-                priorityQueue.add(new Pair(message.getContent(),message.getContent().length()));
-            }
         }
-        if (priorityQueue.size() < messageCount) throw  new RuntimeException("number of messages between the given time is less than K");
-        return priorityQueue.peek().string;
+        return messages.get(K-1).getContent();
+
+//        PriorityQueue<Pair> priorityQueue = new PriorityQueue<>((Pair a, Pair b) ->(b.size - a.size));
+//
+//        int messageCount =0;
+//        for (Message message : senderMap.keySet()){
+//            if (message.getTimestamp().after(start) && message.getTimestamp().before(end)){
+//                messageCount++;
+//                priorityQueue.add(new Pair(message.getContent(),message.getContent().length()));
+//            }
+//        }
+//        if (priorityQueue.size() < messageCount) throw  new RuntimeException("number of messages between the given time is less than K");
+//        return priorityQueue.peek().string;
     }
 }
