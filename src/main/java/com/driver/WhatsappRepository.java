@@ -224,14 +224,14 @@ public class WhatsappRepository {
             throw new Exception("K is greater than the number of messages");
         }
         else{
-            Collections.sort(messages, (o1, o2) -> o1.getTimestamp().compareTo(o2.getTimestamp()));
+            //Collections.sort(messages, (o1, o2) -> o1.getTimestamp().compareTo(o2.getTimestamp()));
 
-//            Collections.sort(messages,new Comparator<Message>(){
-//                @Override
-//                public int compare(Message o1, Message o2) {
-//                    return o1.getTimestamp().compareTo(o2.getTimestamp());
-//                }
-//            });
+            Collections.sort(messages,new Comparator<Message>(){
+                @Override
+                public int compare(Message o1, Message o2) {
+                    return o1.getTimestamp().compareTo(o2.getTimestamp());
+                }
+            });
         }
         return messages.get(K-1).getContent();
     }
